@@ -1,0 +1,28 @@
+import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.dart';
+import 'package:flutter_klleon_homeworkd/feature/contact/domain/repository/contact_repository.dart';
+import 'package:flutter_klleon_homeworkd/feature/contact/domain/usecase/contact_usecases/add_contact.dart';
+import 'package:flutter_klleon_homeworkd/feature/contact/domain/usecase/contact_usecases/delete_contact.dart';
+import 'package:flutter_klleon_homeworkd/feature/contact/domain/usecase/contact_usecases/get_paged_contacts.dart';
+import 'package:flutter_klleon_homeworkd/feature/contact/domain/usecase/contact_usecases/update_contact.dart';
+
+class ContactUseCases {
+  final AddContact addContact;
+  final UpdateContact updateContact;
+  final GetPagedContacts getPagedContacts;
+  final DeleteContact deleteContact;
+
+  ContactUseCases(
+      {required this.addContact,
+      required this.updateContact,
+      required this.deleteContact,
+      required this.getPagedContacts});
+
+  // 팩토리 생성자를 통해 Repository 일괄 적용
+  factory ContactUseCases.fromRepository(ContactRepository repository) {
+    return ContactUseCases(
+        addContact: AddContact(repository: repository),
+        updateContact: UpdateContact(repository: repository),
+        deleteContact: DeleteContact(repository: repository),
+        getPagedContacts: GetPagedContacts(repository: repository));
+  }
+}
