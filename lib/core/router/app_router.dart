@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_klleon_homeworkd/feature/contact/presentation/screen/contact_list/contact_list_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -27,5 +26,5 @@ Page<dynamic> Function(BuildContext, GoRouterState) customPageBuilder<T>(
   Widget child,
 ) =>
     (BuildContext context, GoRouterState state) {
-      return MaterialPage(child: child);
+      return CupertinoPage(child: child);
     };

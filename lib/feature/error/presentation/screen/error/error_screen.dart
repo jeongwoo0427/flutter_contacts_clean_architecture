@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ErrorScreen extends StatelessWidget {
@@ -5,13 +6,9 @@ class ErrorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Error'),
-      ),
-      body: const Center(
-        child: Text('오류 페이지'),
-      ),
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(middle: Text('Error'),),
+      child: Center(child: Text('오류'),),
     );
   }
 }
