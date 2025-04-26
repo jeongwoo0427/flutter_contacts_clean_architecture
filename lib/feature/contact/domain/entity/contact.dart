@@ -1,10 +1,19 @@
-class Contact{
+import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact_interface.dart';
+
+class Contact implements IContact {
+  @override
   final String id;
+  @override
   final String name;
+  @override
   final String phone;
+  @override
   final String? email;
+  @override
   final DateTime? birthDay;
+  @override
   final DateTime createdAt;
+  @override
   final DateTime? updatedAt;
 
   Contact(
@@ -15,6 +24,23 @@ class Contact{
       required this.birthDay,
       required this.createdAt,
       required this.updatedAt});
+
+  factory Contact.create(
+          {String? id,
+          String? name,
+          String? phone,
+          String? email,
+          DateTime? birthDay,
+          DateTime? createdAt,
+          DateTime? updatedAt}) =>
+      Contact(
+          id: id ?? '',
+          name: name ?? '',
+          phone: phone ?? '',
+          email: email ?? '',
+          birthDay: birthDay,
+          createdAt: createdAt ?? DateTime.now(),
+          updatedAt: updatedAt);
 
   Contact copyWith(
           {String? id,
