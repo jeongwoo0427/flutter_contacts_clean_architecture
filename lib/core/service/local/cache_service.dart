@@ -1,29 +1,22 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 ///Shared Preferences 사용을 위한 싱글톤 객체
-class SharedPreferencesService{
+class CacheService{
 
-  static final SharedPreferencesService _instance = SharedPreferencesService._internal();
-
-  SharedPreferencesService._internal();
-
-  factory SharedPreferencesService(){
-    return _instance;
-  }
+  static final CacheService _instance = CacheService._internal();
+  CacheService._internal();
+  factory CacheService()=>_instance;
 
   ///runApp 이전에 호출
-  factory SharedPreferencesService.initialize(SharedPreferences sharedPreferences){
-    _instance._initialize(sharedPreferences);
-    return _instance;
+  static Future<void> init() async  {
+    _instance._initialize(await SharedPreferences.getInstance());
   }
-
-  late final SharedPreferences _preferences;
-
 
   void _initialize(SharedPreferences sharedPreferences) {
     _preferences = sharedPreferences;
   }
 
+  late final SharedPreferences _preferences;
 
   bool isFirstStartApp() => _preferences.getBool('IS_FIRST_START_APP') ?? true;
 
