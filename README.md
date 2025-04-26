@@ -1,16 +1,34 @@
-# flutter_klleon_homeworkd
+# Contact App with Clean architecture
 
-A new Flutter project.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 개발자
 
-A few resources to get you started if this is your first Flutter project:
+- 김정우 (KimJeongWoo)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 주요 기능
+
+- 기능정리
+
+---
+
+## 기술 스택
+
+- **Flutter** 3.29.2
+- Dart
+- Clean Architecture (Feature first)
+- MVVM
+- Hive
+
+---
+
+## Generate
+
+- Hive type generate
+```bash
+flutter pub run build_runner build
+```
+

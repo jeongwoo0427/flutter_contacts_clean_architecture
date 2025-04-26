@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_klleon_homeworkd/core/app_router.dart';
-import 'package:flutter_klleon_homeworkd/core/service/local/cache_service.dart';
-import 'package:flutter_klleon_homeworkd/core/service/local/storage_service.dart';
+import 'package:flutter_klleon_homeworkd/core/service/local/hive/hive_service.dart';
+import 'package:flutter_klleon_homeworkd/core/service/local/shared_preferences/shared_preferences_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async{
@@ -10,8 +10,15 @@ void main() async{
 }
 
 Future<void> appSetup() async{
-  await CacheService.init();
-  await StorageService.init();
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await SharedPreferencesService.init();
+
+  final bool isFirstApp = SharedPreferencesService().getIsFirstStartApp();
+  if(isFirstApp){
+    await SharedPreferencesService().setIsFirstStartApp(false);
+  }
+  await HiveService.init();
 }
 
 class MyApp extends StatelessWidget {

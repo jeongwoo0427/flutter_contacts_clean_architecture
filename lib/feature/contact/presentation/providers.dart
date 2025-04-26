@@ -31,9 +31,5 @@ final contactUseCaseProvider = Provider(
 
 //Infra (변경 가능)
 final contactLocalDataProvider = Provider(
-      (ref) {
-        final data = ContactHiveDataImpl();
-        data.init();
-        return data;
-      },
+      (ref) => ContactHiveDataImpl(),
 );

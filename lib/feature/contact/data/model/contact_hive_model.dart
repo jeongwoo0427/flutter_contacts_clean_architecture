@@ -2,6 +2,9 @@ import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.d
 import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact_interface.dart';
 import 'package:hive/hive.dart';
 
+part 'contact_hive_model.g.dart';
+
+
 @HiveType(typeId: 1)
 class ContactHiveModel extends HiveObject implements IContact {
   @HiveField(0)
