@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_klleon_homeworkd/core/widget/cupertino_divider.dart';
 import 'package:flutter_klleon_homeworkd/feature/contact/presentation/screen/contact_list/contact_list_screen_state_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -36,12 +37,7 @@ class _ContactListScreenState extends ConsumerState<ContactListScreen> {
       ),
       child: ListView.separated(
           itemCount: state.contacts.length,
-          separatorBuilder: (_, __) => Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Divider(
-                thickness: 0.5,
-                height: 0,
-              )),
+          separatorBuilder: (_, __) => CupertinoDivider(),
           itemBuilder: (context, index) => CupertinoListTile(
                 title: Text(state.contacts[index].name),
                 onTap: () {},
