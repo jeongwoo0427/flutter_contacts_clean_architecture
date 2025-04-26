@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_klleon_homeworkd/core/constant/app_constants.dart';
 import 'package:flutter_klleon_homeworkd/core/widget/cupertino_divider.dart';
+import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.dart';
 import 'package:flutter_klleon_homeworkd/feature/contact/presentation/screen/contact_list/contact_list_screen_state_notifier.dart';
+import 'package:flutter_klleon_homeworkd/feature/contact/presentation/screen/contact_manage/contact_manage_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,7 +19,9 @@ class _ContactListScreenState extends ConsumerState<ContactListScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(contactListScreenStateProvider.notifier).fetchContacts();
+      ref
+          .read(contactListScreenStateProvider.notifier)
+          .fetchNextPage(isFirst: true);
     });
   }
 
@@ -28,20 +32,27 @@ class _ContactListScreenState extends ConsumerState<ContactListScreen> {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         middle: Text('Contacts'),
-        trailing:
-            CupertinoButton(
-                padding: EdgeInsets.zero,
-                child: Icon(CupertinoIcons.add), onPressed: () {
-              context.push('/contact-manage');
+        trailing: CupertinoButton(
+            padding: EdgeInsets.zero,
+            child: Icon(CupertinoIcons.add),
+            onPressed: () {
+              context.push('/contact-manage',
+                  extra: ContactManageScreenArguments(
+                      manageMode: ManageMode.create,
+                      contact: Contact.create()));
             }),
       ),
-      child: ListView.separated(
-          itemCount: state.contacts.length,
-          separatorBuilder: (_, __) => CupertinoDivider(),
-          itemBuilder: (context, index) => CupertinoListTile(
-                title: Text(state.contacts[index].name),
-                onTap: () {},
-              )),
+      child: state.status == LoadingStatus.initial
+          ? Center(
+              child: CupertinoActivityIndicator(),
+            )
+          : ListView.separated(
+              itemCount: state.contacts.length,
+              separatorBuilder: (_, __) => CupertinoDivider(),
+              itemBuilder: (context, index) => CupertinoListTile(
+                    title: Text(state.contacts[index].name),
+                    onTap: () {},
+                  )),
     );
   }
 }

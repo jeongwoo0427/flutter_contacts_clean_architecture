@@ -1,9 +1,20 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_klleon_homeworkd/core/constant/app_constants.dart';
 import 'package:flutter_klleon_homeworkd/core/widget/cupertino_divider.dart';
+import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.dart';
 import 'package:go_router/go_router.dart';
 
+class ContactManageScreenArguments{
+  final ManageMode manageMode;
+  final Contact contact;
+
+  ContactManageScreenArguments({required this.manageMode, required this.contact});
+}
+
 class ContactManageScreen extends StatefulWidget {
-  const ContactManageScreen({super.key});
+  final ContactManageScreenArguments arguments;
+
+  const ContactManageScreen({super.key, required this.arguments});
 
   @override
   State<ContactManageScreen> createState() => _ContactManageScreenState();
@@ -13,6 +24,15 @@ class _ContactManageScreenState extends State<ContactManageScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    final Contact contact = widget.arguments.contact;
+    _nameController.text = contact.name;
+    _phoneController.text = contact.phone;
+    _emailController.text = contact.email??'';
+  }
 
   @override
   Widget build(BuildContext context) {

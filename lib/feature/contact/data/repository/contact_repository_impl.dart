@@ -2,10 +2,11 @@ import 'package:flutter_klleon_homeworkd/feature/contact/data/datasource/local/c
 import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.dart';
 import 'package:flutter_klleon_homeworkd/feature/contact/domain/repository/contact_repository.dart';
 
-class ContactRepositoryImpl implements ContactRepository{
+class ContactRepositoryImpl implements ContactRepository {
   final ContactLocalData _localData;
 
-  ContactRepositoryImpl({required ContactLocalData localData}) : _localData=localData;
+  ContactRepositoryImpl({required ContactLocalData localData})
+      : _localData = localData;
 
   @override
   Future<void> addContact(Contact contact) async {
@@ -13,18 +14,18 @@ class ContactRepositoryImpl implements ContactRepository{
   }
 
   @override
-  Future<void> deleteContact(Contact contact) async{
+  Future<void> deleteContact(Contact contact) async {
     await _localData.deleteContact(contact);
   }
 
   @override
-  Future<List<Contact>> getPagedContacts({required int page}) async{
+  Future<List<Contact>> getPagedContacts({required int page}) async {
+    await Future.delayed(Duration(milliseconds: 700));
     return await _localData.getContacts();
   }
 
   @override
-  Future<void> updateContact(Contact contact) async{
+  Future<void> updateContact(Contact contact) async {
     await _localData.updateContact(contact);
   }
-
 }

@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 
 import '../feature/error/presentation/screen/error/error_screen.dart';
 
-
 // The route configuration.
 final GoRouter appRouter = GoRouter(
   errorPageBuilder: customPageBuilder(const ErrorScreen()), // 에러 페이지 핸들러 추가
@@ -16,7 +15,10 @@ final GoRouter appRouter = GoRouter(
       routes: <RouteBase>[
         GoRoute(
           path: 'contact-manage',
-          pageBuilder: customPageBuilder(const ContactManageScreen()),
+          pageBuilder: (context, state) => customPageBuilder(
+                  ContactManageScreen(
+                      arguments: state.extra as ContactManageScreenArguments))(
+              context, state),
         ),
         // GoRoute(
         //   path: 'sample',
