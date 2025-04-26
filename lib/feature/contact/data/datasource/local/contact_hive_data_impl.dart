@@ -4,6 +4,7 @@ import 'package:flutter_klleon_homeworkd/feature/contact/data/model/contact_hive
 import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.dart';
 import 'package:hive/hive.dart';
 
+
 class ContactHiveDataImpl implements ContactLocalData {
   final Box<ContactHiveModel> _box = HiveService().contactBox;
 
@@ -13,12 +14,16 @@ class ContactHiveDataImpl implements ContactLocalData {
   }
 
   @override
-  Future<void> deleteContact(Contact contact) async {
-    final key = _box.keys.firstWhere(
-      (key) => (_box.get(key) as ContactHiveModel).id == contact.id,
-      orElse: () => null,
-    );
+  Future<void> updateContact(Contact contact) async {
+    final key = _findKeyById(contact.id);
+    if (key != null) {
+      await _box.put(key, ContactHiveModel.fromEntity(contact));
+    }
+  }
 
+  @override
+  Future<void> deleteContact(Contact contact) async {
+    final key = _findKeyById(contact.id);
     if (key != null) {
       await _box.delete(key);
     }
@@ -27,5 +32,12 @@ class ContactHiveDataImpl implements ContactLocalData {
   @override
   Future<List<Contact>> getContacts() async {
     return _box.values.map((e) => e.toEntity()).toList();
+  }
+
+  dynamic _findKeyById(String id) {
+    return _box.keys.firstWhere(
+          (key) => (_box.get(key) as ContactHiveModel).id == id,
+      orElse: () => null,
+    );
   }
 }

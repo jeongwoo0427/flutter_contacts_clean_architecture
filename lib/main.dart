@@ -5,11 +5,11 @@ import 'package:flutter_klleon_homeworkd/core/service/local/shared_preferences/s
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async{
-  await appSetup();
+  await setupApp();
   runApp(const ProviderScope(child: MyApp()));
 }
 
-Future<void> appSetup() async{
+Future<void> setupApp() async{
   WidgetsFlutterBinding.ensureInitialized();
 
   await SharedPreferencesService.init();
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoApp.router(
-      title: 'Contact App',
+      title: 'Contacts App',
       routerConfig: appRouter,
     );
   }

@@ -14,19 +14,23 @@ class _ContactListScreenState extends ConsumerState<ContactListScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_){
-      ref.read(contactListScreenStateProvider.notifier);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(contactListScreenStateProvider.notifier).fetchContacts();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(contactListScreenStateProvider);
+    final notifier = ref.read(contactListScreenStateProvider.notifier);
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(middle: Text('Contacts'),),
-      child: Center(
-        child: Text(state.text),
+      navigationBar: CupertinoNavigationBar(
+        middle: Text('Contacts'),
       ),
+      child: ListView.builder(
+        itemCount: state.contacts.length,
+          itemBuilder: (context, index) =>
+              CupertinoListTile(title: Text(state.contacts[index].name))),
     );
   }
 }

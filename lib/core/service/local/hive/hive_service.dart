@@ -2,6 +2,7 @@ import 'package:flutter_klleon_homeworkd/core/service/local/hive/seeds/contact_s
 import 'package:flutter_klleon_homeworkd/feature/contact/data/model/contact_hive_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+///Hive 사용을 위한 싱글톤 객체
 class HiveService {
   static final HiveService _instance = HiveService._internal();
 
@@ -16,9 +17,13 @@ class HiveService {
 
   Future<void> _initialize() async {
     await Hive.initFlutter();
-    Hive.registerAdapter(ContactHiveModelAdapter());
+    await _initAdapters();
     await _initBoxes();
     await _initSeeds();
+  }
+
+  Future<void> _initAdapters() async{
+    Hive.registerAdapter(ContactHiveModelAdapter());
   }
 
   Future<void> _initBoxes() async {

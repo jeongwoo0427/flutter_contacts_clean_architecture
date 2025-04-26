@@ -8,27 +8,23 @@ class ContactRepositoryImpl implements ContactRepository{
   ContactRepositoryImpl({required ContactLocalData localData}) : _localData=localData;
 
   @override
-  Future<void> addContact(Contact contact) {
-    // TODO: implement addContact
-    throw UnimplementedError();
+  Future<void> addContact(Contact contact) async {
+    await _localData.addContact(contact);
   }
 
   @override
-  Future<void> deleteContact(Contact contact) {
-    // TODO: implement deleteContact
-    throw UnimplementedError();
+  Future<void> deleteContact(Contact contact) async{
+    await _localData.deleteContact(contact);
   }
 
   @override
-  Future<List<Contact>> getPagedContacts({required int page}) {
-    // TODO: implement getPagedContacts
-    throw UnimplementedError();
+  Future<List<Contact>> getPagedContacts({required int page}) async{
+    return await _localData.getContacts();
   }
 
   @override
-  Future<void> updateContact(Contact contact) {
-    // TODO: implement updateContact
-    throw UnimplementedError();
+  Future<void> updateContact(Contact contact) async{
+    await _localData.updateContact(contact);
   }
 
 }
