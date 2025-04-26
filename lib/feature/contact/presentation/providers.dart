@@ -4,7 +4,7 @@ import 'package:flutter_klleon_homeworkd/feature/contact/domain/usecase/contact_
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
-/// 각 계층별 의존성 주입(DI)을 위한 Providers
+/// 각 계층별 DI 위한 Providers
 
 /// ----------------------------------------------------------------------------
 /// Doamin
@@ -14,7 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final contactRepositoryProvider = Provider(
       (ref) =>
       ContactRepositoryImpl(
-          localData: ref.read(contactLocalDataProvider)
+          localData: ref.watch(contactLocalDataProvider)
       ),
 );
 
@@ -29,11 +29,11 @@ final contactUseCaseProvider = Provider(
 /// Data
 /// ----------------------------------------------------------------------------
 
-//Infra
+//Infra (변경 가능)
 final contactLocalDataProvider = Provider(
-      (ref) async {
-    final data = ContactHiveDataImpl();
-    await data.init();
-    return data;
-  },
+      (ref) {
+        final data = ContactHiveDataImpl();
+        data.init();
+        return data;
+      },
 );
