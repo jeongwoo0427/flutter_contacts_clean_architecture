@@ -18,7 +18,8 @@ Future<void> setupApp() async{
   if(isFirstApp){
     await SharedPreferencesService().setIsFirstStartApp(false);
   }
-  await HiveService.init();
+  await HiveService.init(initSeed: isFirstApp);
+  //await SharedPreferencesService().removeIsFirstStartApp();
 }
 
 class MyApp extends StatelessWidget {

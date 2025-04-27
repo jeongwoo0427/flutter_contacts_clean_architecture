@@ -17,14 +17,17 @@ class HiveService {
   late final Box<ContactHiveModel> contactBox;
 
   /// runApp 이전에 호출
-  static Future<void> init() => _instance._initialize();
+  static Future<void> init({bool initSeed = false}) =>
+      _instance._initialize(initSeed: initSeed);
 
-  Future<void> _initialize() async {
+  Future<void> _initialize({required bool initSeed}) async {
     await Hive.initFlutter();
     await _initAdapters();
     await _handleMigration();
     await _initBoxes();
-    await _initSeeds();
+    if (initSeed) {
+      await _initSeeds();
+    }
   }
 
   Future<void> _initAdapters() async {
