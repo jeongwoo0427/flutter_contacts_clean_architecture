@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_klleon_homeworkd/core/constant/app_constants.dart';
 import 'package:flutter_klleon_homeworkd/core/widget/cupertino_divider.dart';
 import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.dart';
@@ -13,6 +14,7 @@ class ContactListScreen extends ConsumerStatefulWidget {
   @override
   ConsumerState<ContactListScreen> createState() => _ContactListScreenState();
 }
+
 class _ContactListScreenState extends ConsumerState<ContactListScreen> {
   late ScrollController _scrollController;
 
@@ -28,10 +30,14 @@ class _ContactListScreenState extends ConsumerState<ContactListScreen> {
 
     // 스크롤 끝에 도달했을 때 fetchNextPage 호출
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-
-        ref.read(contactListScreenStateProvider.notifier).fetchNextPage();
+      if (_scrollController.position.pixels >
+          _scrollController.position.maxScrollExtent - 50) {
+        final state = ref.read(contactListScreenStateProvider);
+        if (state.status != LoadingStatus.loading) {
+          ref.read(contactListScreenStateProvider.notifier).fetchNextPage();
+        }
       }
+
     });
   }
 
@@ -60,21 +66,34 @@ class _ContactListScreenState extends ConsumerState<ContactListScreen> {
       ),
       child: state.status == LoadingStatus.initial
           ? Center(
-        child: CupertinoActivityIndicator(),
-      )
+              child: CupertinoActivityIndicator(),
+            )
           : ListView.separated(
-          controller: _scrollController,  // ScrollController 연결
-          itemCount: state.contacts.length,
-          separatorBuilder: (_, __) => CupertinoDivider(),
-          itemBuilder: (context, index) => CupertinoListTile(
-            title: Text(state.contacts[index].name),
-            onTap: () {
-              context.push('/contact-manage',
-                  extra: ContactManageScreenArguments(
-                      manageMode: ManageMode.edit,
-                      contact: state.contacts[index]));
-            },
-          )),
+              controller: _scrollController, // ScrollController 연결
+              itemCount: state.contacts.length + 1,
+              separatorBuilder: (_, __) => CupertinoDivider(),
+              itemBuilder: (context, index) {
+                if (index == state.contacts.length) {
+                  return SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: state.status == LoadingStatus.loading
+                          ? const CupertinoActivityIndicator()
+                          : const SizedBox(),
+                    ),
+                  );
+                }
+
+                return CupertinoListTile(
+                  title: Text(state.contacts[index].name),
+                  onTap: () {
+                    context.push('/contact-manage',
+                        extra: ContactManageScreenArguments(
+                            manageMode: ManageMode.edit,
+                            contact: state.contacts[index]));
+                  },
+                );
+              }),
     );
   }
 }
