@@ -1,4 +1,4 @@
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.dart';
+import '../entity/contact.dart';
 
 abstract class ContactRepository{
   Future<List<Contact>> getPagedContacts({required int page, required int limit, required String searchText});

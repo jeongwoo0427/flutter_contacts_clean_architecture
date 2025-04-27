@@ -1,9 +1,11 @@
-import 'package:flutter_klleon_homeworkd/core/service/local/hive/hive_service.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/data/datasource/local/contact_local_data.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/data/model/contact_hive_model.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.dart';
+
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../../../core/service/local/hive/hive_service.dart';
+import '../../../domain/entity/contact.dart';
+import '../../model/contact_hive_model.dart';
+import 'contact_local_data.dart';
 
 ///Hive와 직접적으로 연결되어 데이터를 다루는 Datasource
 class ContactHiveDataImpl implements ContactLocalData {

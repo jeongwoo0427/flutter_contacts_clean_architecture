@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/presentation/screen/contact_list/contact_list_screen.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/presentation/screen/contact_manage/contact_manage_screen.dart';
 import 'package:go_router/go_router.dart';
 
+import '../feature/contact/presentation/screen/contact_list/contact_list_screen.dart';
+import '../feature/contact/presentation/screen/contact_manage/contact_manage_screen.dart';
 import '../feature/error/presentation/screen/error/error_screen.dart';
 
 // The route configuration.

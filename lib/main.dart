@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_klleon_homeworkd/core/app_router.dart';
-import 'package:flutter_klleon_homeworkd/core/service/local/hive/hive_service.dart';
-import 'package:flutter_klleon_homeworkd/core/service/local/shared_preferences/shared_preferences_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'core/app_router.dart';
+import 'core/service/local/hive/hive_service.dart';
+import 'core/service/local/shared_preferences/shared_preferences_service.dart';
 
 void main() async{
   //앱 실행 전 기본 설정 세팅

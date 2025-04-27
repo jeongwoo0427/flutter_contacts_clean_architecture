@@ -1,9 +1,9 @@
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/presentation/providers.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/presentation/screen/contact_manage/contact_manage_screen_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../domain/entity/contact.dart';
 import '../../../domain/usecase/contact_usecases.dart';
+import '../../providers.dart';
+import 'contact_manage_screen_state.dart';
 
 final contactManageScreenStateProvider = StateNotifierProvider<
     ContactManageScreenStateNotifier,

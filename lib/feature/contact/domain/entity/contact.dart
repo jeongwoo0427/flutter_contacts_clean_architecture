@@ -1,4 +1,5 @@
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact_interface.dart';
+
+import 'contact_interface.dart';
 
 class Contact implements IContact {
   @override

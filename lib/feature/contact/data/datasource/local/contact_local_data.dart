@@ -1,4 +1,5 @@
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.dart';
+
+import '../../../domain/entity/contact.dart';
 
 abstract class ContactLocalData{
   Future<Contact> addContact(Contact contact);

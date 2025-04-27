@@ -1,6 +1,7 @@
-import 'package:flutter_klleon_homeworkd/core/service/local/hive/seeds/contact_seeds.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/data/model/contact_hive_model.dart';
+import 'package:flutter_contacts_clean_architecture/core/service/local/hive/seeds/contact_seeds.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
+import '../../../../feature/contact/data/model/contact_hive_model.dart';
 
 /// Hive 사용을 위한 싱글톤 객체
 class HiveService {

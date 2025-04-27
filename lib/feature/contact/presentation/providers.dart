@@ -1,7 +1,8 @@
-import 'package:flutter_klleon_homeworkd/feature/contact/data/datasource/local/contact_hive_data_impl.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/data/repository/contact_repository_impl.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/usecase/contact_usecases.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../data/datasource/local/contact_hive_data_impl.dart';
+import '../data/repository/contact_repository_impl.dart';
+import '../domain/usecase/contact_usecases.dart';
 
 
 /// 각 계층별 DI 위한 Providers

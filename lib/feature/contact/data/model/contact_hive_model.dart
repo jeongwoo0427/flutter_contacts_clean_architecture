@@ -1,6 +1,8 @@
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact_interface.dart';
+
 import 'package:hive/hive.dart';
+
+import '../../domain/entity/contact.dart';
+import '../../domain/entity/contact_interface.dart';
 
 part 'contact_hive_model.g.dart';
 

@@ -1,6 +1,5 @@
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.dart';
-
 import '../../../../../core/constant/app_enums.dart';
+import '../../../domain/entity/contact.dart';
 
 class ContactListScreenState {
   final LoadingStatus status;

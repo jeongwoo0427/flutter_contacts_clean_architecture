@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_klleon_homeworkd/core/widget/cupertino_divider.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/presentation/screen/contact_manage/contact_manage_screen_state_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/constant/app_enums.dart';
 import '../../../../../core/mixin/validator_mixin.dart';
+import '../../../../../core/widget/cupertino_divider.dart';
+import '../../../domain/entity/contact.dart';
+import 'contact_manage_screen_state_notifier.dart';
 
 class ContactManageScreenArguments {
   final ManageMode manageMode;

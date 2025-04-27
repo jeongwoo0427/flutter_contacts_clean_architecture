@@ -1,6 +1,7 @@
-import 'package:flutter_klleon_homeworkd/feature/contact/data/datasource/local/contact_local_data.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/repository/contact_repository.dart';
+
+import '../../domain/entity/contact.dart';
+import '../../domain/repository/contact_repository.dart';
+import '../datasource/local/contact_local_data.dart';
 
 class ContactRepositoryImpl implements ContactRepository {
   final ContactLocalData _localData;

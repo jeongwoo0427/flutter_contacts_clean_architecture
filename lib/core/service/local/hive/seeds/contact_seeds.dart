@@ -1,4 +1,5 @@
-import 'package:flutter_klleon_homeworkd/feature/contact/data/model/contact_hive_model.dart';
+
+import '../../../../../feature/contact/data/model/contact_hive_model.dart';
 
 final List<ContactHiveModel> contactSeeds = [
   ContactHiveModel(

@@ -1,5 +1,5 @@
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/repository/contact_repository.dart';
+import '../../entity/contact.dart';
+import '../../repository/contact_repository.dart';
 
 class GetPagedContacts {
   final ContactRepository _repository;

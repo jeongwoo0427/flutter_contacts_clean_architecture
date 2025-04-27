@@ -1,9 +1,9 @@
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/repository/contact_repository.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/usecase/contact_usecases/add_contact.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/usecase/contact_usecases/delete_contact.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/usecase/contact_usecases/get_paged_contacts.dart';
-import 'package:flutter_klleon_homeworkd/feature/contact/domain/usecase/contact_usecases/update_contact.dart';
+
+import '../repository/contact_repository.dart';
+import 'contact_usecases/add_contact.dart';
+import 'contact_usecases/delete_contact.dart';
+import 'contact_usecases/get_paged_contacts.dart';
+import 'contact_usecases/update_contact.dart';
 
 ///Contact와 완련된 UseCase를 한번에 모아두는 객체
 class ContactUseCases {
