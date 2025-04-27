@@ -7,5 +7,5 @@ class GetPagedContacts {
   GetPagedContacts({required ContactRepository repository})
       : _repository = repository;
 
-  Future<List<Contact>> call({required int page}) => _repository.getPagedContacts(page: page);
+  Future<List<Contact>> call({required int page, required int limit}) => _repository.getPagedContacts(page: page, limit: limit);
 }

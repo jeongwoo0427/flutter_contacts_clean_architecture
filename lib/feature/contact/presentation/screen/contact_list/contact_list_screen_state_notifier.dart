@@ -28,8 +28,8 @@ class ContactListScreenStateNotifier
     _useCases.deleteContact.stream.listen(_deleteContact);
   }
 
-  Future<void> fetchNextPage({required bool isFirst}) async {
-    if (state.isLastPage) return;
+  Future<void> fetchNextPage({bool isFirst = false}) async {
+    if (state.isLastPage || state.status == LoadingStatus.loading) return;
 
     if (!isFirst) {
       state = state.copyWith(
@@ -38,24 +38,17 @@ class ContactListScreenStateNotifier
       );
     }
 
-    final list = await _useCases.getPagedContacts(page: state.currentPage);
+    final list = await _useCases.getPagedContacts(page: state.currentPage, limit: 30);
 
     state = state.copyWith(
       status: LoadingStatus.success,
-      contacts: [...list],
+      contacts: [...state.contacts, ...list],
       isLastPage: list.isEmpty,
     );
   }
 
-  void _sortContacts() {
-    final sortedContacts = [...state.contacts]
-      ..sort((a, b) => a.name.compareTo(b.name));
-    state = state.copyWith(contacts: sortedContacts);
-  }
-
   void _addContact(Contact contact) {
-    state.contacts.add(contact);
-    _sortContacts();
+    state.contacts.insert(0,contact);
     state = state.copyWith();
   }
 

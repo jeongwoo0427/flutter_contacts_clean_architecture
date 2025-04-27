@@ -37,9 +37,25 @@ class ContactHiveDataImpl implements ContactLocalData {
   }
 
   @override
-  Future<List<Contact>> getContacts() async {
-    return _box.values.map((e) => e.toEntity()).toList();
+  Future<List<Contact>> getPagedContacts({
+    required int page,
+    required int limit,
+  }) async {
+    final startIndex = (page) * limit;
+    final endIndex = startIndex + limit;
+
+    final contactsList = _box.values.map((e) => e.toEntity()).toList();
+
+    // 이름 기준으로 오름차순 정렬
+    contactsList.sort((a, b) => a.name.compareTo(b.name));
+
+    // 페이지 범위에 맞는 데이터만 필터링
+    return contactsList.sublist(
+      startIndex,
+      endIndex > contactsList.length ? contactsList.length : endIndex,
+    );
   }
+
 
   dynamic _findKeyById(String id) {
     return _box.keys.firstWhere(

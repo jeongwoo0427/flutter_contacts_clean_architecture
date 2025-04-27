@@ -13,14 +13,32 @@ class ContactListScreen extends ConsumerStatefulWidget {
   @override
   ConsumerState<ContactListScreen> createState() => _ContactListScreenState();
 }
-
 class _ContactListScreenState extends ConsumerState<ContactListScreen> {
+  late ScrollController _scrollController;
+
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
+
+    // 페이지 초기화
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(contactListScreenStateProvider.notifier).init();
     });
+
+    // 스크롤 끝에 도달했을 때 fetchNextPage 호출
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+
+        ref.read(contactListScreenStateProvider.notifier).fetchNextPage();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -42,20 +60,21 @@ class _ContactListScreenState extends ConsumerState<ContactListScreen> {
       ),
       child: state.status == LoadingStatus.initial
           ? Center(
-              child: CupertinoActivityIndicator(),
-            )
+        child: CupertinoActivityIndicator(),
+      )
           : ListView.separated(
-              itemCount: state.contacts.length,
-              separatorBuilder: (_, __) => CupertinoDivider(),
-              itemBuilder: (context, index) => CupertinoListTile(
-                    title: Text(state.contacts[index].name),
-                    onTap: () {
-                      context.push('/contact-manage',
-                          extra: ContactManageScreenArguments(
-                              manageMode: ManageMode.edit,
-                              contact: state.contacts[index]));
-                    },
-                  )),
+          controller: _scrollController,  // ScrollController 연결
+          itemCount: state.contacts.length,
+          separatorBuilder: (_, __) => CupertinoDivider(),
+          itemBuilder: (context, index) => CupertinoListTile(
+            title: Text(state.contacts[index].name),
+            onTap: () {
+              context.push('/contact-manage',
+                  extra: ContactManageScreenArguments(
+                      manageMode: ManageMode.edit,
+                      contact: state.contacts[index]));
+            },
+          )),
     );
   }
 }

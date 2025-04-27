@@ -79,7 +79,6 @@ class _ContactManageScreenState extends ConsumerState<ContactManageScreen> {
               Column(
                 spacing: 20,
                 children: [
-                  Text(widget.arguments.contact.id),
                   CupertinoTextField(
                     placeholder: 'Name (Required)',
                     controller: _nameController,
