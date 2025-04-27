@@ -6,13 +6,13 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.4.4 <4.0.0'
-
+  sdk: ^3.7.2
 
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.6
+
+  cupertino_icons: ^1.0.8
   equatable: ^2.0.7
   flutter_riverpod: ^2.6.1
   go_router: ^15.1.1
@@ -21,12 +21,12 @@ dependencies:
   shared_preferences: ^2.5.3
   uuid: ^4.5.1
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
   build_runner: ^2.4.15
-  flutter_lints: ^3.0.0
+  flutter_lints: ^5.0.0
   hive_generator: ^2.0.1
 
 flutter:
@@ -39,10 +39,10 @@ flutter:
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware
+  # https://flutter.dev/to/resolution-aware-images
 
   # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
+  # https://flutter.dev/to/asset-from-package
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
@@ -62,4 +62,4 @@ flutter:
   #         weight: 700
   #
   # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+  # see https://flutter.dev/to/font-from-package
