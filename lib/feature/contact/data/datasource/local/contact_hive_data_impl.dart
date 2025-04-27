@@ -11,7 +11,7 @@ class ContactHiveDataImpl implements ContactLocalData {
 
   @override
   Future<Contact> addContact(Contact contact) async {
-    ///RDB 시스템처럼 랜덤한 ID값 부여
+    //RDB 시스템처럼 랜덤한 ID값 부여
     final newContact =
         contact.copyWith(id: _uuid.v4(), createdAt: DateTime.now());
     await _box.add(ContactHiveModel.fromEntity(newContact));
@@ -41,20 +41,26 @@ class ContactHiveDataImpl implements ContactLocalData {
     required int page,
     required int limit,
   }) async {
+
+    await Future.delayed(const Duration(milliseconds: 1000)); // More Loading 인디케이터 표시를 위해 강제 딜레이
+
     final startIndex = (page) * limit;
-    final endIndex = startIndex + limit;
 
     final contactsList = _box.values.map((e) => e.toEntity()).toList();
 
     // 이름 기준으로 오름차순 정렬
     contactsList.sort((a, b) => a.name.compareTo(b.name));
 
-    // 페이지 범위에 맞는 데이터만 필터링
-    return contactsList.sublist(
-      startIndex,
-      endIndex > contactsList.length ? contactsList.length : endIndex,
-    );
+    if (startIndex >= contactsList.length) {
+      // 시작 인덱스가 데이터 길이보다 크면 빈 리스트 반환
+      return [];
+    }
+
+    final endIndex = (startIndex + limit).clamp(0, contactsList.length);
+
+    return contactsList.sublist(startIndex, endIndex);
   }
+
 
 
   dynamic _findKeyById(String id) {
