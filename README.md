@@ -1,17 +1,22 @@
 # Contact App with Clean architecture
 
+> RiverPod 상태관리와 클린아키텍처 및 MVVM패턴을 적용하여 구성한 간단한 연락처앱입니다.
 
 ---
 
-## 개발자
+## 작업자
 
-- 김정우 (KimJeongWoo)
+- **김정우** KimJeongWoo
 
 ---
 
 ## 주요 기능
 
-- 기능정리
+- 로컬스토리지 데이터 저장
+- 연락처 페이지네이션 목록
+- 연락처 추가/수정/삭제
+- 연락처 검색필터
+- 리스트뷰/디테일뷰 간 상태 동기화
 
 ---
 
@@ -19,7 +24,8 @@
 
 - **Flutter** 3.29.2
 - Dart
-- Clean Architecture (Feature first)
+- **Clean Architecture** Feature first
+- RiverPod
 - MVVM
 - Hive
 
@@ -31,4 +37,6 @@
 ```bash
 flutter pub run build_runner build
 ```
+
+---
 
