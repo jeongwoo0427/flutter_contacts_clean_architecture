@@ -10,6 +10,6 @@ class AddContact with BaseStreamUseCase<Contact>{
 
   Future<void> call({required Contact contact}) async{
     final newContact = await _repository.addContact(contact);
-    yieldData(newContact);
+    yieldData(newContact); //데이터 변경으로 인한 이벤트 추가
   }
 }

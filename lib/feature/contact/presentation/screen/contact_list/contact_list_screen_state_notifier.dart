@@ -1,8 +1,8 @@
-import 'package:flutter_klleon_homeworkd/core/constant/app_constants.dart';
 import 'package:flutter_klleon_homeworkd/feature/contact/presentation/providers.dart';
 import 'package:flutter_klleon_homeworkd/feature/contact/presentation/screen/contact_list/contact_list_screen_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../core/constant/app_enums.dart';
 import '../../../domain/entity/contact.dart';
 import '../../../domain/usecase/contact_usecases.dart';
 

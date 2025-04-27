@@ -5,6 +5,7 @@ import 'package:flutter_klleon_homeworkd/feature/contact/domain/usecase/contact_
 import 'package:flutter_klleon_homeworkd/feature/contact/domain/usecase/contact_usecases/get_paged_contacts.dart';
 import 'package:flutter_klleon_homeworkd/feature/contact/domain/usecase/contact_usecases/update_contact.dart';
 
+///Contact와 완련된 UseCase를 한번에 모아두는 객체
 class ContactUseCases {
   final AddContact addContact;
   final UpdateContact updateContact;

@@ -5,6 +5,7 @@ import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.d
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 
+///Hive와 직접적으로 연결되어 데이터를 다루는 Datasource
 class ContactHiveDataImpl implements ContactLocalData {
   final Box<ContactHiveModel> _box = HiveService().contactBox;
   final _uuid = const Uuid();

@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_klleon_homeworkd/core/constant/app_constants.dart';
 import 'package:flutter_klleon_homeworkd/core/widget/cupertino_divider.dart';
 import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.dart';
 import 'package:flutter_klleon_homeworkd/feature/contact/presentation/screen/contact_list/contact_list_screen_state_notifier.dart';
 import 'package:flutter_klleon_homeworkd/feature/contact/presentation/screen/contact_manage/contact_manage_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../../core/constant/app_enums.dart';
 
 class ContactListScreen extends ConsumerStatefulWidget {
   const ContactListScreen({super.key});

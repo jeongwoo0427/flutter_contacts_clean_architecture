@@ -5,6 +5,7 @@ import 'package:flutter_klleon_homeworkd/core/service/local/shared_preferences/s
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async{
+  //앱 실행 전 기본 설정 세팅
   await setupApp();
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -18,7 +19,10 @@ Future<void> setupApp() async{
   if(isFirstApp){
     await SharedPreferencesService().setIsFirstStartApp(false);
   }
+  //Hive서비스 사용 설정
   await HiveService.init(initSeed: isFirstApp);
+
+  //강제 초기화코드
   //await SharedPreferencesService().removeIsFirstStartApp();
 }
 
