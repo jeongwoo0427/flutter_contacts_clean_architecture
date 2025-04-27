@@ -3,35 +3,64 @@ import 'package:flutter_klleon_homeworkd/feature/contact/presentation/providers.
 import 'package:flutter_klleon_homeworkd/feature/contact/presentation/screen/contact_list/contact_list_screen_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../domain/entity/contact.dart';
 import '../../../domain/usecase/contact_usecases.dart';
 
-///ViewModel에서 사용할 의존성 주입 후 사용
-final contactListScreenStateProvider = StateNotifierProvider<
-        ContactListScreenStateNotifier, ContactListScreenState>(
-    (ref) => ContactListScreenStateNotifier(
-        useCases: ref.read(contactUseCaseProvider)));
+/// ViewModel
+final contactListScreenStateProvider = StateNotifierProvider<ContactListScreenStateNotifier, ContactListScreenState>(
+      (ref) => ContactListScreenStateNotifier(
+    useCases: ref.read(contactUseCasesProvider),
+  ),
+);
 
-class ContactListScreenStateNotifier
-    extends StateNotifier<ContactListScreenState> {
+class ContactListScreenStateNotifier extends StateNotifier<ContactListScreenState> {
   ContactListScreenStateNotifier({required ContactUseCases useCases})
       : _useCases = useCases,
         super(ContactListScreenState.create());
 
   final ContactUseCases _useCases;
 
+  Future<void> init() async {
+    fetchNextPage(isFirst: true);
+    _useCases.addContact.stream.listen(_addContact);
+    _useCases.updateContact.stream.listen(_updateContact);
+    _useCases.deleteContact.stream.listen(_deleteContact);
+  }
+
   Future<void> fetchNextPage({required bool isFirst}) async {
     if (state.isLastPage) return;
 
     if (!isFirst) {
-      state = state.copyWith(status: LoadingStatus.loading);
+      state = state.copyWith(
+        status: LoadingStatus.loading,
+        currentPage: state.currentPage + 1,
+      );
     }
 
     final list = await _useCases.getPagedContacts(page: state.currentPage);
+
     state = state.copyWith(
       status: LoadingStatus.success,
-      contacts: list,
-      isLastPage: true,
-      currentPage: state.currentPage + 1,
+      contacts: [...list],
+      isLastPage: list.isEmpty,
+    );
+  }
+
+  void _addContact(Contact contact) {
+    state = state.copyWith(
+      contacts: [...state.contacts, contact],
+    );
+  }
+
+  void _updateContact(Contact contact) {
+    state = state.copyWith(
+      contacts: state.contacts.map((c) => c.id == contact.id ? contact : c).toList(),
+    );
+  }
+
+  void _deleteContact(Contact contact) {
+    state = state.copyWith(
+      contacts: state.contacts.where((c) => c.id != contact.id).toList(),
     );
   }
 }

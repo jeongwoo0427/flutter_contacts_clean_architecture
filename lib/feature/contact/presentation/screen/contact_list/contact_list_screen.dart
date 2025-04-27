@@ -19,9 +19,7 @@ class _ContactListScreenState extends ConsumerState<ContactListScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref
-          .read(contactListScreenStateProvider.notifier)
-          .fetchNextPage(isFirst: true);
+      ref.read(contactListScreenStateProvider.notifier).init();
     });
   }
 
@@ -51,7 +49,12 @@ class _ContactListScreenState extends ConsumerState<ContactListScreen> {
               separatorBuilder: (_, __) => CupertinoDivider(),
               itemBuilder: (context, index) => CupertinoListTile(
                     title: Text(state.contacts[index].name),
-                    onTap: () {},
+                    onTap: () {
+                      context.push('/contact-manage',
+                          extra: ContactManageScreenArguments(
+                              manageMode: ManageMode.edit,
+                              contact: state.contacts[index]));
+                    },
                   )),
     );
   }

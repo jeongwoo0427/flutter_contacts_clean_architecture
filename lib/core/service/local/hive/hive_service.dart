@@ -15,6 +15,7 @@ class HiveService {
 
   late final Box<ContactHiveModel> contactBox;
 
+
   Future<void> _initialize() async {
     await Hive.initFlutter();
     await _initAdapters();

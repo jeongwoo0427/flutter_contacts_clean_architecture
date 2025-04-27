@@ -3,14 +3,18 @@ import 'package:flutter_klleon_homeworkd/feature/contact/data/datasource/local/c
 import 'package:flutter_klleon_homeworkd/feature/contact/data/model/contact_hive_model.dart';
 import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.dart';
 import 'package:hive/hive.dart';
+import 'package:uuid/uuid.dart';
 
 
 class ContactHiveDataImpl implements ContactLocalData {
   final Box<ContactHiveModel> _box = HiveService().contactBox;
+  final _uuid = const Uuid();
 
   @override
-  Future<void> addContact(Contact contact) async {
-    await _box.add(ContactHiveModel.fromEntity(contact));
+  Future<Contact> addContact(Contact contact) async {
+    ///RDB 시스템처럼 랜덤한 ID값 부여
+    await _box.add(ContactHiveModel.fromEntity(contact.copyWith(id: _uuid.v4())));
+    return contact;
   }
 
   @override

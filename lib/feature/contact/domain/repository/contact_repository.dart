@@ -2,7 +2,7 @@ import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.d
 
 abstract class ContactRepository{
   Future<List<Contact>> getPagedContacts({required int page});
-  Future<void> addContact(Contact contact);
+  Future<Contact> addContact(Contact contact);
   Future<void> updateContact(Contact contact);
   Future<void> deleteContact(Contact contact);
 }

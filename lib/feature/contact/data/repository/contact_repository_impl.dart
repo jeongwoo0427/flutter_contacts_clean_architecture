@@ -9,8 +9,8 @@ class ContactRepositoryImpl implements ContactRepository {
       : _localData = localData;
 
   @override
-  Future<void> addContact(Contact contact) async {
-    await _localData.addContact(contact);
+  Future<Contact> addContact(Contact contact) async {
+    return await _localData.addContact(contact);
   }
 
   @override

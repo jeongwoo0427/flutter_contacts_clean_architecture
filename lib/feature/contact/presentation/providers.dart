@@ -19,7 +19,7 @@ final contactRepositoryProvider = Provider(
 );
 
 //UseCase
-final contactUseCaseProvider = Provider(
+final contactUseCasesProvider = Provider(
       (ref) =>
       ContactUseCases.fromRepository(ref.read(contactRepositoryProvider)),
 );
