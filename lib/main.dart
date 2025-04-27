@@ -20,6 +20,7 @@ Future<void> setupApp() async{
     await SharedPreferencesService().setIsFirstStartApp(false);
   }
   //Hive서비스 사용 설정
+  //앱 최소 실행시 더미데이터 추가
   await HiveService.init(initSeed: isFirstApp);
 
   //강제 초기화코드
