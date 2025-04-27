@@ -6,12 +6,16 @@ import 'package:flutter_klleon_homeworkd/feature/contact/presentation/screen/con
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/mixin/validator_mixin.dart';
+
 class ContactManageScreenArguments {
   final ManageMode manageMode;
   final Contact contact;
 
-  ContactManageScreenArguments(
-      {required this.manageMode, required this.contact});
+  ContactManageScreenArguments({
+    required this.manageMode,
+    required this.contact,
+  });
 }
 
 class ContactManageScreen extends ConsumerStatefulWidget {
@@ -20,11 +24,10 @@ class ContactManageScreen extends ConsumerStatefulWidget {
   const ContactManageScreen({super.key, required this.arguments});
 
   @override
-  ConsumerState<ContactManageScreen> createState() =>
-      _ContactManageScreenState();
+  ConsumerState<ContactManageScreen> createState() => _ContactManageScreenState();
 }
 
-class _ContactManageScreenState extends ConsumerState<ContactManageScreen> {
+class _ContactManageScreenState extends ConsumerState<ContactManageScreen> with ValidatorMixin {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -42,6 +45,7 @@ class _ContactManageScreenState extends ConsumerState<ContactManageScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(contactManageScreenStateProvider);
     final notifier = ref.read(contactManageScreenStateProvider.notifier);
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -49,6 +53,7 @@ class _ContactManageScreenState extends ConsumerState<ContactManageScreen> {
       child: CupertinoPageScaffold(
         backgroundColor: CupertinoColors.systemGroupedBackground,
         navigationBar: CupertinoNavigationBar(
+          middle: Text(widget.arguments.manageMode == ManageMode.create ? 'Add' : 'Edit'),
           leading: CupertinoButton(
             padding: EdgeInsets.zero,
             child: const Text('Cancel'),
@@ -58,99 +63,114 @@ class _ContactManageScreenState extends ConsumerState<ContactManageScreen> {
             padding: EdgeInsets.zero,
             child: const Text('Done'),
             onPressed: () {
-              final contact = widget.arguments.contact.copyWith(
-                  name: _nameController.text,
-                  phone: _phoneController.text,
-                  email: _emailController.text);
-              if (widget.arguments.manageMode == ManageMode.create) {
-                notifier.addContact(contact);
-              } else if (widget.arguments.manageMode == ManageMode.edit) {
-                notifier.updateContact(contact);
+              if (checkValidate()) {
+                final contact = widget.arguments.contact.copyWith(
+                  name: _nameController.text.trim(),
+                  phone: _phoneController.text.trim(),
+                  email: _emailController.text.trim().isEmpty ? null : _emailController.text.trim(),
+                );
+                if (widget.arguments.manageMode == ManageMode.create) {
+                  notifier.addContact(contact);
+                } else if (widget.arguments.manageMode == ManageMode.edit) {
+                  notifier.updateContact(contact);
+                }
+                context.pop();
               }
-              context.pop();
             },
           ),
         ),
         child: SafeArea(
-          child: ListView(
-            // 스크롤 가능하게 (iOS Form 스타일)
-            padding: const EdgeInsets.all(16),
-            children: [
-              Column(
-                spacing: 20,
-                children: [
-                  CupertinoTextField(
-                    placeholder: 'Name (Required)',
-                    controller: _nameController,
-                    decoration: BoxDecoration(
-                      color: CupertinoColors.white, // <<< 흰색 TextField
-                      borderRadius: BorderRadius.circular(8),
+          child: Form(
+            key: validationKey,
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                Column(
+                  spacing: 20,
+                  children: [
+                    CupertinoTextFormFieldRow(
+                      maxLength: ValidatorConstants.nameMaxLength,
+                      padding: EdgeInsets.zero,
+                      placeholder: 'Name (Required)',
+                      validator: validateName,
+                      controller: _nameController,
+                      decoration: BoxDecoration(
+                        color: CupertinoColors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
-                  ),
-                  CupertinoTextField(
-                    placeholder: 'Phone Number (Required)',
-                    controller: _phoneController,
-                    decoration: BoxDecoration(
-                      color: CupertinoColors.white,
-                      borderRadius: BorderRadius.circular(8),
+                    CupertinoTextFormFieldRow(
+                      maxLength: ValidatorConstants.phoneMaxLength,
+                      padding: EdgeInsets.zero,
+                      placeholder: 'Phone Number (Required)',
+                      validator: validatePhoneNumber,
+                      controller: _phoneController,
+                      decoration: BoxDecoration(
+                        color: CupertinoColors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
-                  ),
-                  CupertinoDivider(),
-                  CupertinoTextField(
-                    placeholder: 'Email',
-                    controller: _emailController,
-                    decoration: BoxDecoration(
-                      color: CupertinoColors.white,
-                      borderRadius: BorderRadius.circular(8),
+                    CupertinoDivider(),
+                    CupertinoTextFormFieldRow(
+                      maxLength: ValidatorConstants.emailMaxLength,
+                      padding: EdgeInsets.zero,
+                      placeholder: 'Email',
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return null; // 이메일은 optional
+                        }
+                        return validateEmail(value);
+                      },
+                      controller: _emailController,
+                      decoration: BoxDecoration(
+                        color: CupertinoColors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CupertinoButton(
-                          minSize: 40,
-                          padding: EdgeInsets.zero,
-                          color: CupertinoColors.white,
-                          child: const Text('Delete',
-                              style: TextStyle(
-                                color: CupertinoColors.destructiveRed,
-                              )),
-                          onPressed: () {
-                            showCupertinoDialog(
-                              context: context,
-                              builder: (context) => CupertinoAlertDialog(
-                                title: const Text('Delete Contact'),
-                                content: const Text(
-                                    'Are you sure you want to delete this contact?'),
-                                actions: [
-                                  CupertinoDialogAction(
-                                    child: const Text('Cancel'),
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(),
-                                  ),
-                                  CupertinoDialogAction(
-                                    isDestructiveAction: true,
-                                    child: const Text('Delete'),
-                                    onPressed: () {
-                                      notifier.deleteContact(widget.arguments.contact);
-                                      Navigator.of(context).pop();
-                                      context.pop(); // 삭제 후 화면 닫기
-                                    },
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              )
-            ],
+                    const SizedBox(height: 20),
+                    if(widget.arguments.manageMode == ManageMode.edit)Row(
+                      children: [
+                        Expanded(
+                          child: CupertinoButton(
+                            minSize: 40,
+                            padding: EdgeInsets.zero,
+                            color: CupertinoColors.white,
+                            child: const Text(
+                              'Delete',
+                              style: TextStyle(color: CupertinoColors.destructiveRed),
+                            ),
+                            onPressed: () {
+                              showCupertinoDialog(
+                                context: context,
+                                builder: (context) => CupertinoAlertDialog(
+                                  title: const Text('Delete Contact'),
+                                  content: const Text('Are you sure you want to delete this contact?'),
+                                  actions: [
+                                    CupertinoDialogAction(
+                                      child: const Text('Cancel'),
+                                      onPressed: () => Navigator.of(context).pop(),
+                                    ),
+                                    CupertinoDialogAction(
+                                      isDestructiveAction: true,
+                                      child: const Text('Delete'),
+                                      onPressed: () {
+                                        notifier.deleteContact(widget.arguments.contact);
+                                        Navigator.of(context).pop();
+                                        context.pop();
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
