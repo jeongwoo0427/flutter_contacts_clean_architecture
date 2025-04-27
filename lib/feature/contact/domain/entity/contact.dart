@@ -10,8 +10,6 @@ class Contact implements IContact {
   @override
   final String? email;
   @override
-  final DateTime? birthDay;
-  @override
   final DateTime createdAt;
   @override
   final DateTime? updatedAt;
@@ -21,7 +19,6 @@ class Contact implements IContact {
       required this.name,
       required this.phone,
       required this.email,
-      required this.birthDay,
       required this.createdAt,
       required this.updatedAt});
 
@@ -38,7 +35,6 @@ class Contact implements IContact {
           name: name ?? '',
           phone: phone ?? '',
           email: email ?? '',
-          birthDay: birthDay,
           createdAt: createdAt ?? DateTime.now(),
           updatedAt: updatedAt);
 
@@ -47,7 +43,6 @@ class Contact implements IContact {
           String? name,
           String? phone,
           String? email,
-          DateTime? birthDay,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       Contact(
@@ -55,7 +50,6 @@ class Contact implements IContact {
           name: name ?? this.name,
           phone: phone ?? this.phone,
           email: email ?? this.email,
-          birthDay: birthDay ?? this.birthDay,
           createdAt: createdAt ?? this.createdAt,
           updatedAt: updatedAt ?? this.updatedAt);
 }

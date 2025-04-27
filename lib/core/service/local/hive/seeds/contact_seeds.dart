@@ -6,7 +6,6 @@ final List<ContactHiveModel> contactSeeds = [
       name: '김정우',
       phone: '01072458521',
       email: null,
-      birthDay: null,
       createdAt: DateTime.now(),
       updatedAt: null),
   ContactHiveModel(
@@ -14,7 +13,6 @@ final List<ContactHiveModel> contactSeeds = [
       name: '김지훈',
       phone: '01012345678',
       email: null,
-      birthDay: null,
       createdAt: DateTime.now(),
       updatedAt: null),
 ];

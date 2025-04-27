@@ -21,16 +21,15 @@ class ContactHiveModelAdapter extends TypeAdapter<ContactHiveModel> {
       name: fields[1] as String,
       phone: fields[2] as String,
       email: fields[3] as String?,
-      birthDay: fields[4] as DateTime?,
-      createdAt: fields[5] as DateTime,
-      updatedAt: fields[6] as DateTime?,
+      createdAt: fields[4] as DateTime,
+      updatedAt: fields[5] as DateTime?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ContactHiveModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -40,10 +39,8 @@ class ContactHiveModelAdapter extends TypeAdapter<ContactHiveModel> {
       ..writeByte(3)
       ..write(obj.email)
       ..writeByte(4)
-      ..write(obj.birthDay)
-      ..writeByte(5)
       ..write(obj.createdAt)
-      ..writeByte(6)
+      ..writeByte(5)
       ..write(obj.updatedAt);
   }
 

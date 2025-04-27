@@ -25,13 +25,9 @@ class ContactHiveModel extends HiveObject implements IContact {
 
   @HiveField(4)
   @override
-  final DateTime? birthDay;
-
-  @HiveField(5)
-  @override
   final DateTime createdAt;
 
-  @HiveField(6)
+  @HiveField(5)
   @override
   final DateTime? updatedAt;
 
@@ -40,7 +36,6 @@ class ContactHiveModel extends HiveObject implements IContact {
       required this.name,
       required this.phone,
       required this.email,
-      required this.birthDay,
       required this.createdAt,
       required this.updatedAt});
 
@@ -49,7 +44,6 @@ class ContactHiveModel extends HiveObject implements IContact {
       name: contact.name,
       phone: contact.phone,
       email: contact.email,
-      birthDay: contact.birthDay,
       createdAt: contact.createdAt,
       updatedAt: contact.updatedAt);
 
@@ -58,7 +52,6 @@ class ContactHiveModel extends HiveObject implements IContact {
       name: name,
       phone: phone,
       email: email,
-      birthDay: birthDay,
       createdAt: createdAt,
       updatedAt: updatedAt);
 }

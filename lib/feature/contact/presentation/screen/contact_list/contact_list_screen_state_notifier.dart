@@ -6,14 +6,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/entity/contact.dart';
 import '../../../domain/usecase/contact_usecases.dart';
 
-/// ViewModel
-final contactListScreenStateProvider = StateNotifierProvider<ContactListScreenStateNotifier, ContactListScreenState>(
-      (ref) => ContactListScreenStateNotifier(
+final contactListScreenStateProvider = StateNotifierProvider<
+    ContactListScreenStateNotifier, ContactListScreenState>(
+  (ref) => ContactListScreenStateNotifier(
     useCases: ref.read(contactUseCasesProvider),
   ),
 );
 
-class ContactListScreenStateNotifier extends StateNotifier<ContactListScreenState> {
+class ContactListScreenStateNotifier
+    extends StateNotifier<ContactListScreenState> {
   ContactListScreenStateNotifier({required ContactUseCases useCases})
       : _useCases = useCases,
         super(ContactListScreenState.create());
@@ -46,15 +47,22 @@ class ContactListScreenStateNotifier extends StateNotifier<ContactListScreenStat
     );
   }
 
+  void _sortContacts() {
+    final sortedContacts = [...state.contacts]
+      ..sort((a, b) => a.name.compareTo(b.name));
+    state = state.copyWith(contacts: sortedContacts);
+  }
+
   void _addContact(Contact contact) {
-    state = state.copyWith(
-      contacts: [...state.contacts, contact],
-    );
+    state.contacts.add(contact);
+    _sortContacts();
+    state = state.copyWith();
   }
 
   void _updateContact(Contact contact) {
     state = state.copyWith(
-      contacts: state.contacts.map((c) => c.id == contact.id ? contact : c).toList(),
+      contacts:
+          state.contacts.map((c) => c.id == contact.id ? contact : c).toList(),
     );
   }
 
