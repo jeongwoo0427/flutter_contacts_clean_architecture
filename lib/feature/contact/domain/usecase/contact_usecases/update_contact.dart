@@ -9,7 +9,7 @@ class UpdateContact with BaseStreamUseCase<Contact>{
       : _repository = repository;
 
   Future<void> call({required Contact contact}) async {
-    await _repository.updateContact(contact);
-    yieldData(contact);
+    final updatedContact = await _repository.updateContact(contact);
+    yieldData(updatedContact);
   }
 }

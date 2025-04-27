@@ -2,7 +2,7 @@ import 'package:flutter_klleon_homeworkd/feature/contact/domain/entity/contact.d
 
 abstract class ContactLocalData{
   Future<Contact> addContact(Contact contact);
-  Future<void> updateContact(Contact contact);
+  Future<Contact> updateContact(Contact contact);
   Future<void> deleteContact(Contact contact);
   Future<List<Contact>> getContacts();
 }
