@@ -36,6 +36,9 @@ class MyApp extends StatelessWidget {
     return CupertinoApp.router(
       title: 'Contacts App',
       routerConfig: appRouter,
+      theme: CupertinoThemeData(
+        brightness: Brightness.light, // Force light mode
+      ),
     );
   }
 }
