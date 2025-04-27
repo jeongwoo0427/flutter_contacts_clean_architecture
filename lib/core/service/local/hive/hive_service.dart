@@ -47,8 +47,7 @@ class HiveService {
   }
 
   Future<void> _initSeeds() async {
-    if (contactBox.isEmpty) {
-      contactBox.addAll(contactSeeds);
-    }
+    await contactBox.clear();
+    contactBox.addAll(contactSeeds);
   }
 }
