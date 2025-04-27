@@ -7,27 +7,41 @@ class ContactListScreenState {
   final List<Contact> contacts;
   final bool isLastPage;
   final int currentPage;
+  final String searchText;
 
   ContactListScreenState(
       {required this.status,
       required this.contacts,
       required this.isLastPage,
-      required this.currentPage});
+      required this.currentPage,
+      required this.searchText
+      });
 
-  factory ContactListScreenState.create() => ContactListScreenState(
-      status: LoadingStatus.initial,
-      contacts: const [],
-      isLastPage: false,
-      currentPage: 0);
+  factory ContactListScreenState.create({LoadingStatus? status,
+    List<Contact>? contacts,
+    bool? isLastPage,
+    int? currentPage,
+    String? searchText,
+  }) => ContactListScreenState(
+      status: status??LoadingStatus.initial,
+      contacts: contacts??const [],
+      isLastPage: isLastPage??false,
+      currentPage: currentPage?? 0,
+      searchText: searchText??''
+  );
 
   ContactListScreenState copyWith(
           {LoadingStatus? status,
           List<Contact>? contacts,
           bool? isLastPage,
-          int? currentPage}) =>
+          int? currentPage,
+          String? searchText,
+          }) =>
       ContactListScreenState(
           status: status ?? this.status,
           contacts: contacts ?? this.contacts,
           isLastPage: isLastPage ?? this.isLastPage,
-          currentPage: currentPage ?? this.currentPage);
+          currentPage: currentPage ?? this.currentPage,
+          searchText: searchText ?? this.searchText,
+      );
 }

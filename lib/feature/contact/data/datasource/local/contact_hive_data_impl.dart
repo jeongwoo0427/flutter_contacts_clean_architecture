@@ -36,29 +36,36 @@ class ContactHiveDataImpl implements ContactLocalData {
       await _box.delete(key);
     }
   }
-
   @override
   Future<List<Contact>> getPagedContacts({
     required int page,
     required int limit,
+    required String searchText,
   }) async {
-
-    await Future.delayed(const Duration(milliseconds: 1000)); // More Loading 인디케이터 표시를 위해 강제 딜레이
+    await Future.delayed(const Duration(milliseconds: 500)); // 강제 딜레이
 
     final startIndex = (page) * limit;
 
+    // 모든 연락처 목록을 가져옴
     final contactsList = _box.values.map((e) => e.toEntity()).toList();
+
+    // 검색어 필터링
+    if (searchText.isNotEmpty) {
+      contactsList.retainWhere((contact) =>
+          contact.name.toLowerCase().contains(searchText.toLowerCase()));
+    }
 
     // 이름 기준으로 오름차순 정렬
     contactsList.sort((a, b) => a.name.compareTo(b.name));
 
+    // 시작 인덱스가 데이터 길이보다 크면 빈 리스트 반환
     if (startIndex >= contactsList.length) {
-      // 시작 인덱스가 데이터 길이보다 크면 빈 리스트 반환
       return [];
     }
 
     final endIndex = (startIndex + limit).clamp(0, contactsList.length);
 
+    // 페이징된 리스트 반환
     return contactsList.sublist(startIndex, endIndex);
   }
 

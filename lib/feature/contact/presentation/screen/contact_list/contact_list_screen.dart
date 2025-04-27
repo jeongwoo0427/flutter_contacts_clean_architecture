@@ -18,33 +18,32 @@ class ContactListScreen extends ConsumerStatefulWidget {
 
 class _ContactListScreenState extends ConsumerState<ContactListScreen> {
   late ScrollController _scrollController;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
 
-    // 페이지 초기화
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(contactListScreenStateProvider.notifier).init();
     });
 
-    // 스크롤 끝에 도달했을 때 fetchNextPage 호출
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >
           _scrollController.position.maxScrollExtent - 50) {
         final state = ref.read(contactListScreenStateProvider);
         if (state.status != LoadingStatus.loading) {
-          ref.read(contactListScreenStateProvider.notifier).fetchNextPage();
+          ref.read(contactListScreenStateProvider.notifier).fetchPage();
         }
       }
-
     });
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -52,49 +51,85 @@ class _ContactListScreenState extends ConsumerState<ContactListScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(contactListScreenStateProvider);
     final notifier = ref.read(contactListScreenStateProvider.notifier);
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: Text('Contacts'),
-        trailing: CupertinoButton(
+
+    final contacts = state.contacts;
+
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: Text('Contacts'),
+          trailing: CupertinoButton(
             padding: EdgeInsets.zero,
             child: Icon(CupertinoIcons.add),
             onPressed: () {
-              context.push('/contact-manage',
-                  extra: ContactManageScreenArguments(
-                      manageMode: ManageMode.create,
-                      contact: Contact.create()));
-            }),
-      ),
-      child: state.status == LoadingStatus.initial
-          ? Center(
-              child: CupertinoActivityIndicator(),
-            )
-          : ListView.separated(
-              controller: _scrollController, // ScrollController 연결
-              itemCount: state.contacts.length + 1,
-              separatorBuilder: (_, __) => CupertinoDivider(),
-              itemBuilder: (context, index) {
-                if (index == state.contacts.length) {
-                  return SizedBox(
-                    height: 100,
-                    child: Center(
-                      child: state.status == LoadingStatus.loading
-                          ? const CupertinoActivityIndicator()
-                          : const SizedBox(),
-                    ),
-                  );
-                }
-
-                return CupertinoListTile(
-                  title: Text(state.contacts[index].name),
-                  onTap: () {
-                    context.push('/contact-manage',
-                        extra: ContactManageScreenArguments(
-                            manageMode: ManageMode.edit,
-                            contact: state.contacts[index]));
+              context.push(
+                '/contact-manage',
+                extra: ContactManageScreenArguments(
+                  manageMode: ManageMode.create,
+                  contact: Contact.create(),
+                ),
+              );
+            },
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CupertinoSearchTextField(
+                  controller: _searchController,
+                  onSuffixTap: () {
+                    _searchController.text = '';
+                    notifier.search(searchText: '');
                   },
-                );
-              }),
+                  onSubmitted: (text) {
+                    notifier.search(searchText: text);
+                  },
+                ),
+              ),
+              Expanded(
+                child: state.status == LoadingStatus.initial
+                    ? const Center(child: CupertinoActivityIndicator())
+                    : ListView.separated(
+                        controller: _scrollController,
+                        itemCount: contacts.length + 1,
+                        separatorBuilder: (_, __) => CupertinoDivider(),
+                        itemBuilder: (context, index) {
+                          if (index == contacts.length) {
+                            return SizedBox(
+                              height: 100,
+                              child: Center(
+                                child: state.status == LoadingStatus.loading
+                                    ? const CupertinoActivityIndicator()
+                                    : const SizedBox(),
+                              ),
+                            );
+                          }
+
+                          return CupertinoListTile(
+                            title: Text(contacts[index].name),
+                            onTap: () {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              context.push(
+                                '/contact-manage',
+                                extra: ContactManageScreenArguments(
+                                  manageMode: ManageMode.edit,
+                                  contact: contacts[index],
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

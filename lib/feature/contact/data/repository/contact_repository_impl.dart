@@ -20,8 +20,8 @@ class ContactRepositoryImpl implements ContactRepository {
   }
 
   @override
-  Future<List<Contact>> getPagedContacts({required int page, required int limit}) async {
-    return await _localData.getPagedContacts(page: page, limit: limit);
+  Future<List<Contact>> getPagedContacts({required int page, required int limit, required String searchText}) async {
+    return await _localData.getPagedContacts(page: page, limit: limit, searchText: searchText);
   }
 
   @override

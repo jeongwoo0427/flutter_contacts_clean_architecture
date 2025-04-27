@@ -22,14 +22,19 @@ class ContactListScreenStateNotifier
   final ContactUseCases _useCases;
 
   Future<void> init() async {
-    fetchNextPage(isFirst: true);
+    fetchPage(isFirst: true);
     _useCases.addContact.stream.listen(_addContact);
     _useCases.updateContact.stream.listen(_updateContact);
     _useCases.deleteContact.stream.listen(_deleteContact);
   }
 
-  Future<void> fetchNextPage({bool isFirst = false}) async {
-    if (state.isLastPage || state.status == LoadingStatus.loading) return;
+  void search({required String searchText}) {
+    state = ContactListScreenState.create(searchText: searchText);
+    fetchPage(isFirst: true);
+  }
+
+  Future<void> fetchPage({bool isFirst = false}) async {
+    if (state.isLastPage) return;
 
     if (!isFirst) {
       state = state.copyWith(
@@ -38,7 +43,8 @@ class ContactListScreenStateNotifier
       );
     }
 
-    final list = await _useCases.getPagedContacts(page: state.currentPage, limit: 30);
+    final list =
+        await _useCases.getPagedContacts(page: state.currentPage, limit: 30, searchText: state.searchText);
 
     state = state.copyWith(
       status: LoadingStatus.success,
@@ -48,9 +54,11 @@ class ContactListScreenStateNotifier
   }
 
   void _addContact(Contact contact) {
-    state.contacts.insert(0,contact);
-    state = state.copyWith();
+    state = state.copyWith(
+      contacts: [contact, ...state.contacts],
+    );
   }
+
 
   void _updateContact(Contact contact) {
     state = state.copyWith(
