@@ -1,4 +1,4 @@
-# Contact App with Clean architecture
+# Contacts App with Clean architecture
 
 > RiverPod 상태관리와 클린아키텍처 및 MVVM패턴을 적용하여 구성한 간단한 연락처앱입니다.
 
